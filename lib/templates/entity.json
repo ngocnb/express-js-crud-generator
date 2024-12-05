@@ -1,0 +1,9 @@
+{
+    "name": "User",
+    "fields": [
+      {"name": "username", "type": "string"},
+      {"name": "fullname", "type": "string"},
+      {"name": "password", "type": "string"},
+      {"name": "birth", "type": "date"}
+    ]
+  }

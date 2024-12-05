@@ -1,0 +1,23 @@
+{
+  "name": "@baongoc/express-js-crud-generator",
+  "version": "1.0.0",
+  "description": "",
+  "bin": {
+    "crud-generator": "./bin/cli.js"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Nguyen Bao Ngoc",
+  "license": "ISC",
+  "dependencies": {
+    "handlebars": "^4.7.8",
+    "pg": "^8.13.1",
+    "prettier": "^3.4.2",
+    "sequelize": "^6.37.5",
+    "typedi": "^0.10.0",
+    "typeorm": "^0.3.20"
+  }
+}

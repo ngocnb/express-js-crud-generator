@@ -1,0 +1,31 @@
+import {
+    BaseEntity,
+    Column,
+    CreateDateColumn,
+    DeleteDateColumn,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn
+} from 'typeorm';
+
+export default abstract class Base extends BaseEntity {
+    @PrimaryGeneratedColumn('increment', { type: 'bigint' })
+    id: number;
+
+    @CreateDateColumn({ name: 'created_at', type: 'timestamptz', default: Date.now() })
+    createdAt: Date;
+
+    @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz', default: Date.now() })
+    updatedAt: Date;
+
+    @DeleteDateColumn({ name: 'deleted_at', type: 'timestamptz', nullable: true })
+    deletedAt: Date;
+
+    @Column({ name: 'created_by', type: 'bigint', nullable: true })
+    createdBy: number;
+
+    @Column({ name: 'updated_by', type: 'bigint', nullable: true })
+    updatedBy: number;
+
+    @Column({ name: 'deleted_by', type: 'bigint', nullable: true })
+    deletedBy: number;
+}

@@ -1,0 +1,10 @@
+import { Column, Entity } from 'typeorm';
+import BaseEntity from './base';
+
+@Entity({ name: '{{tableName}}', schema: 'public' })
+export default class {{name}}Entity extends BaseEntity {
+  {{#fields}}
+  @Column({ name: '{{fieldName}}', type: '{{type}}', {{#isNullable}}nullable: true{{/isNullable}} })
+  {{fieldName}}: {{fieldType}};
+  {{/fields}}
+}

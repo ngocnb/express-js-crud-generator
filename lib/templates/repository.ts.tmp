@@ -1,0 +1,10 @@
+import { Service } from 'typedi';
+import { BaseRepository } from './base';
+import {{name}}Entity from '../entities/{{fileName}}';
+
+@Service()
+export default class {{name}}Repository extends BaseRepository<{{name}}Entity> {
+  constructor() {
+    super({{name}}Entity);
+  }
+}
