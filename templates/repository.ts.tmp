@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import { BaseRepository } from './base';
-import {{name}}Entity from '../entities/{{fileName}}';
+import {{name}}Entity from '../entities/{{nameSnakeCase}}';
 
 @Service()
 export default class {{name}}Repository extends BaseRepository<{{name}}Entity> {

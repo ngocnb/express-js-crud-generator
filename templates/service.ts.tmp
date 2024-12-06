@@ -1,27 +1,27 @@
 import { Service } from 'typedi';
-import {{name}}Repository from '../repositories/{{fileName}}';
+import {{name}}Repository from '../repositories/{{nameSnakeCase}}';
 
 @Service()
 export default class {{name}}Service {
-  constructor(private {{fileName}}Repository: {{name}}Repository) {}
+  constructor(private {{nameVariable}}Repository: {{name}}Repository) {}
 
   async getAll(query: any) {
-    return await this.{{fileName}}Repository.find(query);
+    return await this.{{nameVariable}}Repository.find(query);
   }
 
   async getById(req: any) {
-    return await this.{{fileName}}Repository.findOne({ id: req.params.id });
+    return await this.{{nameVariable}}Repository.findOne({ id: req.params.id });
   }
 
   async create(req: any) {
-    return await this.{{fileName}}Repository.create(req.body);
+    return await this.{{nameVariable}}Repository.create(req.body);
   }
 
   async updateById(req: any) {
-    return await this.{{fileName}}Repository.updateById(req.params.id, req.body);
+    return await this.{{nameVariable}}Repository.updateById(req.params.id, req.body);
   }
 
   async deleteById(req: any) {
-    return await this.{{fileName}}Repository.softDeleteById(req.params.id);
+    return await this.{{nameVariable}}Repository.softDeleteById(req.params.id);
   }
 }

@@ -4,7 +4,7 @@ import BaseEntity from './base';
 @Entity({ name: '{{tableName}}', schema: 'public' })
 export default class {{name}}Entity extends BaseEntity {
   {{#fields}}
-  @Column({ name: '{{fieldName}}', type: '{{type}}', {{#isNullable}}nullable: true{{/isNullable}} })
-  {{fieldName}}: {{fieldType}};
+  @Column({ name: '{{fieldName}}', type: '{{type}}'{{#compare maxLength ">" 0}}, length: {{maxLength}}{{/compare}}{{#isNullable}}, nullable: true{{/isNullable}} })
+  {{fieldName}}?: {{fieldType}};
   {{/fields}}
 }

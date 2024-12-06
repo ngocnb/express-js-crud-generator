@@ -1,60 +1,60 @@
 import { Request, Response } from 'express';
 import { HTTP_RESPONSE } from '../utils/constants/http-response';
 import { Inject, Service } from 'typedi';
-import {{name}}Service from '../services/{{fileName}}';
-import { IQuery{{name}} } from '../interfaces/{{fileName}}';
+import {{name}}Service from '../services/{{nameSnakeCase}}';
+import { IQuery{{name}} } from '../interfaces/{{nameSnakeCase}}';
 
 @Service()
 export default class {{name}}Controller {
-  @Inject() {{fileName}}Service: {{name}}Service;
+  @Inject() {{nameVariable}}Service: {{name}}Service;
 
   index = async (req: Request, res: Response) => {
     const query: IQuery{{name}} = req.query;
-    const result = await this.{{fileName}}Service.getAll({ query });
+    const result = await this.{{nameVariable}}Service.getAll({ query });
 
     return res.success(
-      HTTP_RESPONSE.{{name.toUpperCase()}}.GET_LIST_SUCCESS.message,
-      HTTP_RESPONSE.{{name.toUpperCase()}}.GET_LIST_SUCCESS.code,
+      HTTP_RESPONSE.{{nameSnakeCaseUpper}}.GET_LIST_SUCCESS.message,
+      HTTP_RESPONSE.{{nameSnakeCaseUpper}}.GET_LIST_SUCCESS.code,
       result
     );
   };
 
   show = async (req: Request, res: Response) => {
-    const result = await this.{{fileName}}Service.getById(req);
+    const result = await this.{{nameVariable}}Service.getById(req);
 
     return res.success(
-      HTTP_RESPONSE.{{name.toUpperCase()}}.GET_BY_ID_SUCCESS.message,
-      HTTP_RESPONSE.{{name.toUpperCase()}}.GET_BY_ID_SUCCESS.code,
+      HTTP_RESPONSE.{{nameSnakeCaseUpper}}.GET_BY_ID_SUCCESS.message,
+      HTTP_RESPONSE.{{nameSnakeCaseUpper}}.GET_BY_ID_SUCCESS.code,
       result
     );
   };
 
   create = async (req: Request, res: Response) => {
-    const result = await this.{{fileName}}Service.create(req);
+    const result = await this.{{nameVariable}}Service.create(req);
 
     return res.success(
-      HTTP_RESPONSE.{{name.toUpperCase()}}.CREATED.message,
-      HTTP_RESPONSE.{{name.toUpperCase()}}.CREATED.code,
+      HTTP_RESPONSE.{{nameSnakeCaseUpper}}.CREATED.message,
+      HTTP_RESPONSE.{{nameSnakeCaseUpper}}.CREATED.code,
       result
     );
   };
 
   update = async (req: Request, res: Response) => {
-    const result = await this.{{fileName}}Service.updateById(req);
+    const result = await this.{{nameVariable}}Service.updateById(req);
 
     return res.success(
-      HTTP_RESPONSE.{{name.toUpperCase()}}.UPDATE_SUCCESS.message,
-      HTTP_RESPONSE.{{name.toUpperCase()}}.UPDATE_SUCCESS.code,
+      HTTP_RESPONSE.{{nameSnakeCaseUpper}}.UPDATE_SUCCESS.message,
+      HTTP_RESPONSE.{{nameSnakeCaseUpper}}.UPDATE_SUCCESS.code,
       result,
     );
   };
 
   delete = async (req: Request, res: Response) => {
-    const result = await this.{{fileName}}Service.deleteById(req);
+    const result = await this.{{nameVariable}}Service.deleteById(req);
 
     return res.success(
-      HTTP_RESPONSE.{{name.toUpperCase()}}.DELETE_SUCCESS.message,
-      HTTP_RESPONSE.{{name.toUpperCase()}}.DELETE_SUCCESS.code,
+      HTTP_RESPONSE.{{nameSnakeCaseUpper}}.DELETE_SUCCESS.message,
+      HTTP_RESPONSE.{{nameSnakeCaseUpper}}.DELETE_SUCCESS.code,
       result
     );
   };
