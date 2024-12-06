@@ -1,0 +1,11 @@
+import { IBaseQuery } from "./common";
+
+export interface IBodyCreate{{name}} {
+  name: string;
+}
+
+export interface IBodyUpdate{{name}} {
+  name: string;
+}
+
+export interface IQueryGetList{{name}}s extends IBaseQuery {}

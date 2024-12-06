@@ -1,31 +1,96 @@
-import { DeepPartial, EntityTarget, FindManyOptions, FindOneOptions, Repository, ObjectLiteral } from 'typeorm';
+import {
+  DeepPartial,
+  EntityTarget,
+  FindManyOptions,
+  FindOneOptions,
+  FindOptionsSelect,
+  FindOptionsWhere,
+  ObjectLiteral,
+  Repository,
+  SelectQueryBuilder,
+} from 'typeorm';
+import { IPagination } from '../interfaces/common';
 import database from '../utils/config/database';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 export class BaseRepository<T extends ObjectLiteral> {
-    protected repository: Repository<T>;
+  protected repository: Repository<T>;
 
-    constructor(entity: EntityTarget<T>) {
-        this.repository = database.getRepository(entity);
-    }
+  constructor(entity: EntityTarget<T>) {
+    this.repository = database.getRepository(entity);
+  }
 
-    async create(data: DeepPartial<T>): Promise<T> {
-        const entity = this.repository.create(data);
-        return await this.repository.save(entity);
-    }
+  async create(data: DeepPartial<T>): Promise<T> {
+    const entity = this.repository.create(data);
+    return await this.repository.save(entity);
+  }
 
-    async findOne(options: FindOneOptions<T>): Promise<T | null> {
-        return await this.repository.findOne(options);
-    }
+  async createMany(data: DeepPartial<T>[]): Promise<T[]> {
+    const entities = this.repository.create(data);
+    return await this.repository.save(entities);
+  }
 
-    async find(options?: FindManyOptions<T>): Promise<T[]> {
-        return await this.repository.find(options);
-    }
+  async findOne(where: FindOptionsWhere<T> | FindOptionsWhere<T>[], select?: FindOptionsSelect<T>) {
+    return await this.repository.findOne({
+      select,
+      where,
+    });
+  }
 
-    async delete(id: number): Promise<void> {
-        await this.repository.delete(id);
-    }
+  async find(options?: FindManyOptions<T>): Promise<T[]> {
+    return await this.repository.find(options);
+  }
 
-    async updateById(id: number, data: DeepPartial<T>): Promise<void> {
-        await this.repository.update(id, data);
-    }
+  async delete(id: number): Promise<void> {
+    await this.repository.delete(id);
+  }
+
+  async softDeleteById(id: number): Promise<void> {
+    await this.repository.softDelete(id);
+  }
+
+  async restoreById<T>(id: number): Promise<void> {
+    await this.repository.restore(id);
+  }
+
+  async getResponsePaging<P>(queryBuilder: SelectQueryBuilder<T>, pagination: IPagination) {
+    const { page, limit } = pagination;
+    const [count, result] = await Promise.all([
+      // 1. Get count.
+      queryBuilder.getCount(),
+
+      // 2. Get result.
+      queryBuilder.limit(pagination.limit).offset(pagination.skip).getRawMany<P>(),
+    ]);
+
+    return {
+      responses: result,
+      pagination: {
+        page,
+        limit,
+        totalItems: count,
+        totalPages: Math.ceil(count / limit),
+      },
+    };
+  }
+
+  async upsert(data: QueryDeepPartialEntity<T>, conflictPaths: string[]): Promise<void> {
+    await this.repository.upsert(data, conflictPaths);
+  }
+
+  async deleteBy(options: Partial<T>): Promise<void> {
+    await this.repository.delete(options);
+  }
+
+  async updateById(id: number, options: Partial<T>): Promise<void> {
+    await this.repository.update(id, options);
+  }
+
+  async findOneCustom(options: FindOneOptions<T>) {
+    return await this.repository.findOne(options);
+  }
+
+  async findAndCount(options: FindManyOptions<T>): Promise<[T[], number]> {
+    return await this.repository.findAndCount(options);
+  }
 }

@@ -55,6 +55,10 @@ function generateCRUD(entityFilePath: string): Promise<any> {
             dir: 'entities'
         },
         {
+            template: 'interface.ts.tmp',
+            dir: 'interfaces'
+        },
+        {
             template: 'controller.ts.tmp',
             dir: 'controllers'
         },
