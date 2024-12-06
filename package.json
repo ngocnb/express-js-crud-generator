@@ -1,23 +1,30 @@
 {
-  "name": "@baongoc/express-js-crud-generator",
-  "version": "1.0.0",
-  "description": "",
-  "bin": {
-    "crud-generator": "./bin/cli.js"
-  },
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "Nguyen Bao Ngoc",
-  "license": "ISC",
-  "dependencies": {
-    "handlebars": "^4.7.8",
-    "pg": "^8.13.1",
-    "prettier": "^3.4.2",
-    "sequelize": "^6.37.5",
-    "typedi": "^0.10.0",
-    "typeorm": "^0.3.20"
-  }
+    "name": "@baongoc/express-js-crud-generator",
+    "version": "1.0.0",
+    "description": "",
+    "bin": {
+        "crud-generator": "./dist/bin/cli"
+    },
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "npm-run-all build:compile build:copy",
+        "build:compile": "tsc",
+        "build:copy": "node scripts/postbuild.js"
+    },
+    "keywords": [],
+    "author": "Nguyen Bao Ngoc",
+    "license": "ISC",
+    "dependencies": {
+        "handlebars": "^4.7.8",
+        "pg": "^8.13.1",
+        "prettier": "^3.4.2",
+        "sequelize": "^6.37.5",
+        "typedi": "^0.10.0",
+        "typeorm": "^0.3.20"
+    },
+    "devDependencies": {
+        "npm-run-all": "^4.1.5",
+        "typescript": "^5.7.2"
+    }
 }

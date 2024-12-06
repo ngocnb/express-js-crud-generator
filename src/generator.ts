@@ -14,6 +14,8 @@ function ensureBaseFilesExist() {
         }
     ];
 
+    const baseFolders = ['interfaces', 'thirdParties', 'utils'];
+
     baseFiles.forEach(({ template, output }) => {
         if (!fs.existsSync(output)) {
             const dir = path.dirname(output);
@@ -27,9 +29,15 @@ function ensureBaseFilesExist() {
             console.log(`Base file already exists: ${output}`);
         }
     });
+
+    // for each baseFolders and folder
+    // check the folder src/{folder}
+    // get list of the files in {folder}
+    // check if the file is existed in src/{folder} or not, if not, copy the file
+    
 }
 
-function generateCRUD(entityFilePath: string) {
+function generateCRUD(entityFilePath: string): Promise<any> {
     ensureBaseFilesExist();
 
     const entityData = JSON.parse(fs.readFileSync(entityFilePath, 'utf8'));
@@ -61,6 +69,7 @@ function generateCRUD(entityFilePath: string) {
     });
 
     console.log(`CRUD for ${name} generated in ${outputDir}`);
+    return Promise.resolve();
 }
 
 export default generateCRUD;
