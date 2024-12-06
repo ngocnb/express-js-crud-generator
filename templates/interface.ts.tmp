@@ -8,4 +8,4 @@ export interface IBodyUpdate{{name}} {
   name: string;
 }
 
-export interface IQueryGetList{{name}}s extends IBaseQuery {}
+export interface IQueryGetList{{namePlural}} extends IBaseQuery {}

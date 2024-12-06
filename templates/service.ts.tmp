@@ -1,27 +1,107 @@
-import { Service } from 'typedi';
+import { Inject, Service } from 'typedi';
+import { Request } from 'express';
 import {{name}}Repository from '../repositories/{{nameSnakeCase}}';
+import AppError from '../utils/config/app-error';
+import { HTTP_RESPONSE } from '../utils/constants/http-response';
+import { IBodyCreate{{name}}, IQueryGetList{{namePlural}} } from '../interfaces/{{nameSnakeCase}}';
+import { beforeCreate, beforeDelete, beforeUpdate } from '../utils/helpers/database';
+import { IGetListResponse } from '../interfaces/common';
+import CommonHelper from '../utils/helpers/common';
+import { OrderTypeEnum } from '../utils/enum/base';
+import ValidationHelper from '../utils/helpers/validation';
+import {{name}}Entity from '../entities/{{nameSnakeCase}}';
 
 @Service()
 export default class {{name}}Service {
-  constructor(private {{nameVariable}}Repository: {{name}}Repository) {}
+  @Inject() {{nameVariable}}Repository: {{name}}Repository;
 
-  async getAll(query: any) {
-    return await this.{{nameVariable}}Repository.find(query);
-  }
+  getById = async (req: Request): Promise<{{name}}Entity> => {
+    const {{nameVariable}}Id = Number(req.params.id);
+    const {{nameVariable}} = await this.{{nameVariable}}Repository.findOne({ id: {{nameVariable}}Id });
+    if (!{{nameVariable}}) {
+      throw new AppError(
+        HTTP_RESPONSE.COMMON.NOT_FOUND.code,
+        HTTP_RESPONSE.{{nameSnakeCaseUpper}}.NOT_FOUND.message,
+        HTTP_RESPONSE.{{nameSnakeCaseUpper}}.NOT_FOUND.code,
+      );
+    }
 
-  async getById(req: any) {
-    return await this.{{nameVariable}}Repository.findOne({ id: req.params.id });
-  }
+    return {{nameVariable}};
+  };
 
-  async create(req: any) {
-    return await this.{{nameVariable}}Repository.create(req.body);
-  }
+  getAll = async (payload: { query: IQueryGetList{{namePlural}} }): Promise<IGetListResponse<{{name}}Entity>> => {
+    const { query } = payload;
+    const page = query.page ?? 1;
+    const limit = query.limit ?? 10;
 
-  async updateById(req: any) {
-    return await this.{{nameVariable}}Repository.updateById(req.params.id, req.body);
-  }
+    const orderBy: any = {};
+    if (query.sortBy && query.sortType) {
+      orderBy[query.sortBy] = query.sortType;
+    } else {
+      orderBy['id'] = OrderTypeEnum.DESC;
+    }
 
-  async deleteById(req: any) {
-    return await this.{{nameVariable}}Repository.softDeleteById(req.params.id);
+    const data = await this.{{nameVariable}}Repository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+      order: orderBy,
+    });
+
+    const result = {
+      responses: data[0],
+      pagination: CommonHelper.pagination(Number(page), Number(limit), data[1]),
+    }
+
+    return result;
+  };
+
+  create = async (req: Request) => {
+    const body: IBodyCreate{{name}} = req.body;
+
+    //Check {{nameVariable}} existence
+    await ValidationHelper.validateExist{{name}}ByName(body.name, this.{{nameVariable}}Repository);
+
+    const data = beforeCreate(body, req)
+    const {{nameVariable}} = await this.{{nameVariable}}Repository.create(data);
+
+    return {{nameVariable}};
+  };
+
+  updateById = async (req: Request) => {
+    const {{nameVariable}} = await this.getById(req);
+    const body: IBodyCreate{{name}} = req.body;
+
+    //Check {{nameVariable}} existence
+    await ValidationHelper.validateExist{{name}}ByName(body.name, this.{{nameVariable}}Repository);
+
+    const data = beforeUpdate(body, req);
+    await this.{{nameVariable}}Repository.updateById({{nameVariable}}.id, data);
+
+    return data;
+  };
+
+  deleteById = async (req: Request) => {
+    const {{nameVariable}} = await this.getById(req);
+    const data = beforeDelete({}, req);
+
+    await this.{{nameVariable}}Repository.updateById({{nameVariable}}.id, data);
+
+    return data;
+  };
+
+  get{{name}}ById = async (id: number) => {
+    const {{nameVariable}} = await this.{{nameVariable}}Repository.findOne({
+      id: id
+    });
+
+    if (!{{nameVariable}}) {
+      throw new AppError(
+        HTTP_RESPONSE.COMMON.BAD_REQUEST.code,
+        HTTP_RESPONSE.{{nameSnakeCaseUpper}}.NOT_FOUND.message,
+        HTTP_RESPONSE.{{nameSnakeCaseUpper}}.NOT_FOUND.code
+      );
+    }
+
+    return {{nameVariable}};
   }
 }

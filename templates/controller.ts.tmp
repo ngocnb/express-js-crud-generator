@@ -2,14 +2,14 @@ import { Request, Response } from 'express';
 import { HTTP_RESPONSE } from '../utils/constants/http-response';
 import { Inject, Service } from 'typedi';
 import {{name}}Service from '../services/{{nameSnakeCase}}';
-import { IQuery{{name}} } from '../interfaces/{{nameSnakeCase}}';
+import { IQueryGetList{{namePlural}} } from '../interfaces/{{nameSnakeCase}}';
 
 @Service()
 export default class {{name}}Controller {
   @Inject() {{nameVariable}}Service: {{name}}Service;
 
   index = async (req: Request, res: Response) => {
-    const query: IQuery{{name}} = req.query;
+    const query: IQueryGetList{{namePlural}} = req.query;
     const result = await this.{{nameVariable}}Service.getAll({ query });
 
     return res.success(

@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as Handlebars from 'handlebars';
 import { registerHandlebarsHelper } from './helpers/handlebars';
+import * as StringHelpers from './helpers/string';
 
 registerHandlebarsHelper();
 
@@ -76,7 +77,7 @@ function generateCRUD(entityFilePath: string): Promise<any> {
         const templatePath = path.join(templatesDir, file.template);
         const outputDir = path.join(srcDir, file.dir);
         fs.mkdirSync(outputDir, { recursive: true });
-        const nameSnakeCase = convertStringToSnakeCase(name);
+        const nameSnakeCase = StringHelpers.convertStringToSnakeCase(name);
         const outputPath = path.join(outputDir, nameSnakeCase + '.ts');
 
         const template = Handlebars.compile(fs.readFileSync(templatePath, 'utf8'));
@@ -90,9 +91,10 @@ function generateCRUD(entityFilePath: string): Promise<any> {
                 isNullable: field.nullable || false,
                 maxLength: field.max_length || 0
             })),
-            nameVariable: uncapitalizeFirstLetter(name),
+            nameVariable: StringHelpers.uncapitalizeFirstLetter(name),
             nameSnakeCase: nameSnakeCase,
-            nameSnakeCaseUpper: nameSnakeCase.toUpperCase()
+            nameSnakeCaseUpper: nameSnakeCase.toUpperCase(),
+            namePlural: StringHelpers.toPlural(name)
         });
 
         fs.writeFileSync(outputPath, content);
@@ -100,17 +102,6 @@ function generateCRUD(entityFilePath: string): Promise<any> {
     });
 
     return Promise.resolve();
-}
-
-function convertStringToSnakeCase(str: string): string {
-    return str
-        .replace(/([A-Z])/g, '_$1')
-        .toLowerCase()
-        .replace(/^_/, '');
-}
-
-function uncapitalizeFirstLetter(str: string): string {
-    return str.charAt(0).toLowerCase() + str.slice(1);
 }
 
 export default generateCRUD;
