@@ -58,9 +58,6 @@ export default class {{name}}Service {
   create = async (req: Request) => {
     const body: IBodyCreate{{name}} = req.body;
 
-    //Check {{nameVariable}} existence
-    await ValidationHelper.validateExist{{name}}ByName(body.name, this.{{nameVariable}}Repository);
-
     const data = beforeCreate(body, req)
     const {{nameVariable}} = await this.{{nameVariable}}Repository.create(data);
 
@@ -70,9 +67,6 @@ export default class {{name}}Service {
   updateById = async (req: Request) => {
     const {{nameVariable}} = await this.getById(req);
     const body: IBodyCreate{{name}} = req.body;
-
-    //Check {{nameVariable}} existence
-    await ValidationHelper.validateExist{{name}}ByName(body.name, this.{{nameVariable}}Repository);
 
     const data = beforeUpdate(body, req);
     await this.{{nameVariable}}Repository.updateById({{nameVariable}}.id, data);
