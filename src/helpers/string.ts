@@ -182,7 +182,7 @@ export function toSingular(word: string): string {
     return word;
 }
 
-export function convertStringToSnakeCase(str: string): string {
+export function toSnakeCase(str: string): string {
     return str
         .replace(/([A-Z])/g, '_$1')
         .toLowerCase()
@@ -191,4 +191,11 @@ export function convertStringToSnakeCase(str: string): string {
 
 export function uncapitalizeFirstLetter(str: string): string {
     return str.charAt(0).toLowerCase() + str.slice(1);
+}
+
+export function toKebabCase(str: string): string {
+    return str
+        .replace(/([A-Z])/g, '-$1')
+        .toLowerCase()
+        .replace(/^-/, '');
 }

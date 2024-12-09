@@ -1,0 +1,11 @@
+import Joi from 'joi';
+
+export default class {{name}}Validation {
+  static createAndUpdate = {
+    body: Joi.object().keys({
+      {{#each fields}}
+      {{fieldName}}: Joi.{{type}}(){{#if maxLength}}.max({{maxLength}}){{/if}}{{#unless isNullable}}.required(){{/unless}},
+      {{/each}}
+    }),
+  };
+}
