@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "bin": {
-        "crud-generator": "./dist/bin/cli"
+        "crud-generator": "./dist/bin/crud-generator"
     },
     "main": "index.js",
     "scripts": {

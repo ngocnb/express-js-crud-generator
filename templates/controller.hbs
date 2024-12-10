@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { HTTP_RESPONSE } from '../utils/constants/http-response';
 import { Inject, Service } from 'typedi';
-import {{name}}Service from '../services/{{nameSnakeCase}}';
-import { IQueryGetList{{namePlural}} } from '../interfaces/{{nameSnakeCase}}';
+import {{name}}Service from '../services/{{nameKebabCase}}';
+import { IQueryGetList{{namePlural}} } from '../interfaces/{{nameKebabCase}}';
 
 @Service()
 export default class {{name}}Controller {

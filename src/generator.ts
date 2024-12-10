@@ -90,7 +90,8 @@ function generateCRUD(entityFilePath: string): Promise<any> {
         const outputDir = path.join(srcDir, file.dir);
         fs.mkdirSync(outputDir, { recursive: true });
         const nameSnakeCase = StringHelpers.toSnakeCase(name);
-        const outputPath = path.join(outputDir, nameSnakeCase + '.ts');
+        const nameKebabCase = StringHelpers.toKebabCase(name);
+        const outputPath = path.join(outputDir, nameKebabCase + '.ts');
 
         const template = Handlebars.compile(fs.readFileSync(templatePath, 'utf8'));
         const content = template({
@@ -108,8 +109,8 @@ function generateCRUD(entityFilePath: string): Promise<any> {
             nameSnakeCase: nameSnakeCase,
             nameSnakeCaseUpper: nameSnakeCase.toUpperCase(),
             namePlural: StringHelpers.toPlural(name),
-            nameKebabCase: StringHelpers.toKebabCase(name),
-            nameKebabCasePlural: StringHelpers.toKebabCase(StringHelpers.toPlural(name))
+            nameKebabCase: nameKebabCase,
+            nameKebabCasePlural: StringHelpers.toPlural(nameKebabCase)
         });
 
         fs.writeFileSync(outputPath, content);

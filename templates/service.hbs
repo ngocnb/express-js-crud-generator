@@ -1,15 +1,15 @@
 import { Inject, Service } from 'typedi';
 import { Request } from 'express';
-import {{name}}Repository from '../repositories/{{nameSnakeCase}}';
+import {{name}}Repository from '../repositories/{{nameKebabCase}}';
 import AppError from '../utils/config/app-error';
 import { HTTP_RESPONSE } from '../utils/constants/http-response';
-import { IBodyCreate{{name}}, IQueryGetList{{namePlural}} } from '../interfaces/{{nameSnakeCase}}';
+import { IBodyCreate{{name}}, IQueryGetList{{namePlural}} } from '../interfaces/{{nameKebabCase}}';
 import { beforeCreate, beforeDelete, beforeUpdate } from '../utils/helpers/database';
 import { IGetListResponse } from '../interfaces/common';
 import CommonHelper from '../utils/helpers/common';
 import { OrderTypeEnum } from '../utils/enum/base';
 import ValidationHelper from '../utils/helpers/validation';
-import {{name}}Entity from '../entities/{{nameSnakeCase}}';
+import {{name}}Entity from '../entities/{{nameKebabCase}}';
 
 @Service()
 export default class {{name}}Service {
