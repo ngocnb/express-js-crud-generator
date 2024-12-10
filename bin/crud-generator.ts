@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import * as path from 'path';
-import generateCRUD from '../src/generator';
+import generateCRUD from '../src/crud-generator';
 
 const args = process.argv.slice(2);
 

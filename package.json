@@ -1,10 +1,11 @@
 {
     "name": "@baongoc/express-js-crud-generator",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "",
     "bin": {
         "bn-skeleton-generator": "./dist/bin/app-skeleton-generator.js",
-        "bn-crud-generator": "./dist/bin/crud-generator.js"
+        "bn-crud-generator": "./dist/bin/crud-generator.js",
+        "bn-migration-generator": "./dist/bin/migration-generator.js"
     },
     "main": "index.js",
     "scripts": {
