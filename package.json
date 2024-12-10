@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "bin": {
+        "app-skeleton-generator": "./dist/bin/app-skeleton-generator",
         "crud-generator": "./dist/bin/crud-generator"
     },
     "main": "index.js",
