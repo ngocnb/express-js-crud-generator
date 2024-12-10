@@ -1,13 +1,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const templatesDir = path.join(__dirname, '..', 'templates');
+const templatesDir = path.join(__dirname, 'templates');
 const srcDir = path.join(process.cwd(), 'src');
 
 /**
  * Recursively copies files and folders from templates to the src directory.
  */
-export const syncTemplates = (): void => {
+const syncTemplates = (): void => {
     try {
         copyRecursiveSync(templatesDir, srcDir);
         console.log('Templates synchronized successfully!');
@@ -40,8 +40,15 @@ const copyRecursiveSync = (source: string, destination: string): void => {
             }
             copyRecursiveSync(sourcePath, destinationPath);
         } else if (!fs.existsSync(destinationPath)) {
+            // ignore if file is .hbs
+            if (item.endsWith('.hbs')) {
+                return;
+            }
+
             fs.copyFileSync(sourcePath, destinationPath);
             console.log(`Copied file: ${sourcePath} -> ${destinationPath}`);
         }
     });
 };
+
+export default syncTemplates;
