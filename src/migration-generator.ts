@@ -40,6 +40,18 @@ function generateMigration(entityFilePath: string): Promise<any> {
         })
         .join('');
 
+    const foreignKeys = fields
+        .filter((field: any) => field.foreign_key !== undefined)
+        .map((field: any) => {
+            return `{
+                    name: '${field.foreign_key.name}',
+                    columnNames: ['${field.foreign_key.column_name}'],
+                    referencedTableName: '${field.foreign_key.referenced_table_name}',
+                    referencedColumnNames: ['${field.foreign_key.referenced_column_name}'],
+                }`;
+        })
+        .join('');
+
     const migrationContent = `
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 import { MIGRATION_DEFAULT_COLUMNS, MIGRATION_DEFAULT_FOREIGN_KEYS } from "../../utils/constants/database";
@@ -54,6 +66,9 @@ export class Create${name}Table${dateNow} implements MigrationInterface {
                     ${columns}
                     ...MIGRATION_DEFAULT_COLUMNS,
                 ],
+                foreignKeys: [
+                    ${foreignKeys}
+                ]
             })
         );
     }
