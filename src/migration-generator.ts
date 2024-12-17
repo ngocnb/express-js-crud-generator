@@ -50,7 +50,7 @@ function generateMigration(entityFilePath: string): Promise<any> {
                     referencedColumnNames: ['${field.foreign_key.referenced_column_name}'],
                 }`;
         })
-        .join('');
+        .join(',');
 
     const migrationContent = `
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
